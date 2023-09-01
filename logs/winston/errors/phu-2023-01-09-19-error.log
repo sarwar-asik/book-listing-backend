@@ -1,0 +1,64 @@
+Fri Sep 01 2023 19:4:55 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "author"
+    ],
+    "message": "author is Required (zod)"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "genre"
+    ],
+    "message": "genre is Required (zod)"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "price"
+    ],
+    "message": "price is Required (zod)"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "publicationDate"
+    ],
+    "message": "publicationDate is Required (zod)"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "categoryId"
+    ],
+    "message": "categoryId is Required (zod)"
+  }
+]
+Fri Sep 01 2023 19:5:30 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "number",
+    "path": [
+      "body",
+      "price"
+    ],
+    "message": "Expected string, received number"
+  }
+]

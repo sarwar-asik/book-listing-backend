@@ -11,7 +11,7 @@ const createBook = z.object({
     genre: z.string({
       required_error: 'genre is Required (zod)',
     }),
-    price: z.string({
+    price: z.number({
       required_error: 'price is Required (zod)',
     }),
     publicationDate: z.string({
@@ -27,7 +27,7 @@ const updateBook = z.object({
     title: z.string().optional(),
     author: z.string().optional(),
     genre: z.string().optional(),
-    price: z.string().optional(),
+    price: z.number().optional(),
     publicationDate: z.string().optional(),
     categoryId: z.string().optional(),
   }),

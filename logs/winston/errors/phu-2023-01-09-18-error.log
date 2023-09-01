@@ -13,3 +13,19 @@ Fri Sep 01 2023 18:20:3 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malf
 Fri Sep 01 2023 18:20:9 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malformed
 Fri Sep 01 2023 18:20:48 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malformed
 Fri Sep 01 2023 18:21:30 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Fri Sep 01 2023 18:49:13 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Fri Sep 01 2023 18:49:50 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "title"
+    ],
+    "message": "title is Required (zod)"
+  }
+]
+Fri Sep 01 2023 18:51:1 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Fri Sep 01 2023 18:51:54 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Fri Sep 01 2023 18:54:31 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
