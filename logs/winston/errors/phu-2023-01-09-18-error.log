@@ -1,0 +1,15 @@
+Fri Sep 01 2023 18:11:43 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ 
+Invalid `prisma.user.update()` invocation:
+
+
+An operation failed because it depends on one or more records that were required but not found. Record to update not found.
+Fri Sep 01 2023 18:12:57 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ 
+Invalid `prisma.user.update()` invocation:
+
+
+Unique constraint failed on the fields: (`email`)
+Fri Sep 01 2023 18:19:31 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Fri Sep 01 2023 18:20:3 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malformed
+Fri Sep 01 2023 18:20:9 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malformed
+Fri Sep 01 2023 18:20:48 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ jwt malformed
+Fri Sep 01 2023 18:21:30 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
