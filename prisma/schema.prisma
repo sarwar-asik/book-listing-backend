@@ -31,7 +31,7 @@ model User {
   address    String
   profileImg String
   reviews    Review[]
-  orders      Order[]
+  orders     Order[]
 }
 
 model Category {
@@ -71,12 +71,19 @@ enum Status {
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  status    Status   @default(pending)
-  orderedBooks Json[]
+  id           String @id @default(uuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
+  status       Status @default(pending)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  orderedBooks OrderedBook[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model OrderedBook {
+  id       String @id @default(uuid())
+  bookId   String // Assuming book IDs are stored as strings (UUIDs)
+  quantity Int
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id])
 }

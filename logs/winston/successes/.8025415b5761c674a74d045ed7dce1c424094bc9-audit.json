@@ -29,6 +29,11 @@
             "date": 1693585075260,
             "name": "C:\\WEB\\NEXT_LEVEL_2\\assignment-8-PrismaPostgress\\book-listing-backend\\logs\\winston\\successes\\phu-2023-01-09-22-success.log",
             "hash": "a43c8d6fd79a257113bd5123315fa94635a85dfb8ad9c9933fd6573446f75799"
+        },
+        {
+            "date": 1693587841713,
+            "name": "C:\\WEB\\NEXT_LEVEL_2\\assignment-8-PrismaPostgress\\book-listing-backend\\logs\\winston\\successes\\phu-2023-01-09-23-success.log",
+            "hash": "6191079ab4be0d6e6fa25a03c1817c476aec1e6975cbe8a8e45e9ef9ca897f63"
         }
     ],
     "hashType": "sha256"

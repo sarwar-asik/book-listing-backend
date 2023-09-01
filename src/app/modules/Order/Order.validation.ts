@@ -2,11 +2,18 @@
 import { z } from 'zod';
 const createOrder = z.object({
   body: z.object({
-    year: z.number({
-      required_error: 'year is Required (zod)',
+    userId: z.string({
+      required_error: 'userId is Required (zod)',
     }),
-    title: z.string({
-      required_error: 'title is Required (zod)',
+    orderedBooks: z.object({
+      bookId: z.string({
+        required_error: 'bookId is Required (zod)',
+      }),
+      quantity: z.number({
+        required_error: 'quantity is Required (zod)',
+      })
+    },{
+      required_error:"orderedBooks are required (zod)"
     })
   }),
 });
