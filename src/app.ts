@@ -4,6 +4,7 @@ import httpStatus from 'http-status';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 import cookieParser from 'cookie-parser';
+import router from './app/routes';
 
 const app: Application = express();
 
@@ -23,7 +24,7 @@ app.use('/', (req: Request, res: Response) => {
 });
 
 
-// app.use('/api/v1', routes);
+app.use('/api/v1', router);
 
 //global error handler
 app.use(globalErrorHandler);

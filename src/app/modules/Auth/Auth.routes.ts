@@ -8,4 +8,4 @@ const router = Router()
 
 router.post('/signup',validateRequest(AuthValidation.createUser),AuthController.signUpDB)
 
-export const signUpRouter = router
+export const authRouter = router
