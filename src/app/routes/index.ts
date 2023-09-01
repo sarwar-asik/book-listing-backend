@@ -14,6 +14,10 @@ const moduleRoutes = [
     path: "/users",
     routes: usersRoutes
   },
+  {
+    path: "/categories",
+    routes: usersRoutes
+  },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.routes));
