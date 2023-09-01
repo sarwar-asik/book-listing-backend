@@ -16,3 +16,19 @@ model test{
   name String 
   user Int
 }
+
+
+enum UserRole {
+  admin
+  customer
+}
+model User {
+  id         String @id @default(uuid()) // Assuming UUID is stored as a string
+  name       String
+  email      String @unique
+  password   String
+  role       UserRole @default(admin)
+  contactNo  String
+  address    String
+  profileImg String
+}
