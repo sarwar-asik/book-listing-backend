@@ -3,17 +3,18 @@ import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
-import { CategoryService } from "./Category.service";
-import { Category } from "@prisma/client";
+import { BookService } from "./Book.service";
+import { Book } from "@prisma/client";
+
 
 const insertDB = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
-  const result = await CategoryService.insertDB(data)
+  const result = await BookService.insertDB(data)
 
-  sendResponse<Category>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Successfully Category',
+    message: 'Successfully Book',
     data: result,
   });
 });
@@ -21,12 +22,12 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
 
 const getAllDB = catchAsync(async (req: Request, res: Response) => {
  
-  const result = await CategoryService.getAllDB()
+  const result = await BookService.getAllDB()
 
-  sendResponse<Category[]>(res, {
+  sendResponse<Book[]>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Successfully Fetched Category',
+    message: 'Successfully Fetched Book',
     data: result,
   });
 });
@@ -36,12 +37,12 @@ const getAllDB = catchAsync(async (req: Request, res: Response) => {
 const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
-  const result = await CategoryService.getSingleData(id);
+  const result = await BookService.getSingleData(id);
 
-  sendResponse<Category>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Successfully get Category ${id}`,
+    message: `Successfully get Book ${id}`,
     data: result,
   });
 });
@@ -50,9 +51,9 @@ const updateIntoDb = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 const data = req?.body;
 
-  const result = await CategoryService.updateItoDb(id,data);
+  const result = await BookService.updateItoDb(id,data);
 
-  sendResponse<Category>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: `Successfully updated ${id}`,
@@ -64,9 +65,9 @@ const deleteFromDb = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
 
-  const result = await CategoryService.deleteFromDb(id)
+  const result = await BookService.deleteFromDb(id)
 
-  sendResponse<Category>(res, {
+  sendResponse<Book>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: `Successfully deleted ${id}`,
@@ -74,4 +75,4 @@ const deleteFromDb = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const CategoryController = {insertDB,getAllDB,getSingleDataById,updateIntoDb,deleteFromDb};
+export const BookController = {insertDB,getAllDB,getSingleDataById,updateIntoDb,deleteFromDb};
