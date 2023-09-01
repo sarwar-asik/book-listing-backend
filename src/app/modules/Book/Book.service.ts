@@ -3,18 +3,43 @@
 
 import { Book } from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 
 
 
 const insertDB = async (data: Book): Promise<Book> => {
   const result = await prisma.book.create({
     data,
+    include:{
+      category:true
+    }
   });
 
   return result;
 };
-const getAllDB = async (): Promise<Book[]> => {
-  const result = await prisma.book.findMany();
+
+
+
+type IFilters = {
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
+  roomId?: string;
+  facultyId?: string;
+};
+
+
+const getAllDB = async (filters:IFilters,options:IPaginationOptions): Promise<Book[]> => {
+
+  console.log(filters,"ffffffff");
+  
+  console.log(options,"oooo");
+  const result = await prisma.book.findMany({
+    include:{
+      category:true
+    }
+  });
 
   return result;
 };
@@ -25,6 +50,9 @@ const getSingleData = async (id: string): Promise<Book | null> => {
     where: {
       id,
     },
+    include:{
+      category:true
+    }
   });
 
   return result;
@@ -39,7 +67,10 @@ const updateItoDb = async(id:string,payload:Partial<Book>):Promise<Book>=>{
     where:{
       id
     },
-    data:payload
+    data:payload,
+    include:{
+      category:true
+    }
   })
 
   return result

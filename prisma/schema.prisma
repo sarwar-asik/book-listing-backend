@@ -31,6 +31,7 @@ model User {
   address    String
   profileImg String
   reviews    Review[]
+  orders      Order[]
 }
 
 model Category {
@@ -61,4 +62,21 @@ model Review {
   user   User   @relation(fields: [userId], references: [id])
   bookId String
   book   Book   @relation(fields: [bookId], references: [id])
+}
+
+enum Status {
+  pending
+  shipped
+  delivered
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  status    Status   @default(pending)
+  orderedBooks Json[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -5,6 +5,7 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { BookService } from "./Book.service";
 import { Book } from "@prisma/client";
+import pick from "../../../shared/pick";
 
 
 const insertDB = catchAsync(async (req: Request, res: Response) => {
@@ -21,8 +22,28 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
 
 
 const getAllDB = catchAsync(async (req: Request, res: Response) => {
+
+  const booksFilterableFields = [
+    'search',
+    'minPrice',
+    'maxPrice',
+    'category',
+    'roomId',
+    'facultyId',
+    'title',
+    'price',
+    'genre',
+    'publicationDate'
+]
+
+  const filters = pick(req.query,booksFilterableFields);
+
+  const options = pick(req.query, ['size', 'page', 'sortBy', 'sortOrder'])
+
+
+  
  
-  const result = await BookService.getAllDB()
+  const result = await BookService.getAllDB(filters,options)
 
   sendResponse<Book[]>(res, {
     statusCode: httpStatus.CREATED,

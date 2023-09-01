@@ -62,3 +62,20 @@ Fri Sep 01 2023 19:5:30 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ [
     "message": "Expected string, received number"
   }
 ]
+Fri Sep 01 2023 19:5:57 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ 
+Invalid `prisma.book.create()` invocation:
+
+{
+  data: {
+    title: "The Catcher in the Rye",
+    author: "J.D. Salinger",
+    genre: "Fiction",
+    price: 350.75,
+    publicationDate: "1951-07-16",
+                     ~~~~~~~~~~~~
+    categoryId: "564c7df1-39b7-45d3-a8b9-30a8a250bad7"
+  }
+}
+
+Invalid value for argument `publicationDate`: premature end of input. Expected ISO-8601 DateTime.
+Fri Sep 01 2023 19:9:43 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
