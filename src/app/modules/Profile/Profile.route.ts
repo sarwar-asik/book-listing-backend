@@ -6,6 +6,7 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 import { ProfileController } from './Profile.controller';
 
 const router = Router();
+
 router.get('/',auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER),ProfileController.getProfileDataById)
 
 
