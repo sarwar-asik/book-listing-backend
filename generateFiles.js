@@ -87,7 +87,9 @@ const router = Router();
 router.get('/')
 router.post('/')
 
-export const ${capitalize(folderName)}Routes = router;
+export const ${folderName.charAt(0).toLowerCase()+folderName.slice(1)}Routes = router;
+
+// export const ${capitalize(folderName)}Routes = router;
 `,
   },
 ];

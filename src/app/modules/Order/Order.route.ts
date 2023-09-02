@@ -15,7 +15,7 @@ router.post(
   validateRequest(OrderValidation.createOrder),
   OrderController.insertDB
 );
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), OrderController.getAllDB);
+router.get('/',  auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER), OrderController.getAllDB);
 router.get(
   '/:id',
   auth(ENUM_USER_ROLE.ADMIN),
@@ -28,4 +28,4 @@ router.patch(
 );
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), OrderController.deleteFromDb);
 
-export const OrderRoutes = router;
+export const orderRoutes = router;

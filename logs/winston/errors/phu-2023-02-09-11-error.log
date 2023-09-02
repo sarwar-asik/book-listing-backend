@@ -1,0 +1,34 @@
+Sat Sep 02 2023 11:20:0 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ 
+Invalid `prisma.order.create()` invocation:
+
+{
+  data: {
+    userId: "4f354920-09ad-4471-a21f-9462080cab86",
+    orderedBooks: [
+      {
+        bookId: "580c6c49-4519-4d83-a3c9-eb5210370e1d",
+        quantity: 3
+      },
+      {
+        bookId: "a487d5e4-1fcc-4961-99e1-f6d6b2e5ce06",
+        quantity: 2
+      }
+    ]
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  }
+}
+
+Argument `orderedBooks`: Invalid value provided. Expected OrderedBookUncheckedCreateNestedManyWithoutOrderInput, provided (Object, Object).
+Sat Sep 02 2023 11:30:58 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Unexpected token c in JSON at position 81
+Sat Sep 02 2023 11:39:58 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ You are not authorized
+Sat Sep 02 2023 11:45:22 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ 
+Invalid `prisma.order.create()` invocation:
+
+
+Unique constraint failed on the fields: (`bookId`,`orderId`)
+Sat Sep 02 2023 11:54:40 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden
+Sat Sep 02 2023 11:54:42 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden
+Sat Sep 02 2023 11:54:44 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden
+Sat Sep 02 2023 11:54:46 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden
+Sat Sep 02 2023 11:55:49 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden
+Sat Sep 02 2023 11:56:23 } [PH] error: 🐱‍🏍 globalErrorHandler ~~ Forbidden

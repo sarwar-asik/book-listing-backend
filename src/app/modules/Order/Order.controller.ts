@@ -21,13 +21,16 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
 
 
 const getAllDB = catchAsync(async (req: Request, res: Response) => {
+
+  const userRole  = req?.user
+  console.log(userRole);
  
-  const result = await OrderService.getAllDB()
+  const result = await OrderService.getAllDB(userRole)
 
   sendResponse<Order[]>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
-    message: 'Successfully Fetched Order',
+    message: 'Orders retrieved successfully',
     data: result,
   });
 });

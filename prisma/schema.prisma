@@ -42,16 +42,17 @@ model Category {
 }
 
 model Book {
-  id              String   @id @default(uuid())
+  id              String        @id @default(uuid())
   title           String
   author          String
   price           Float
   genre           String
   publicationDate DateTime
   categoryId      String
-  category        Category @relation(fields: [categoryId], references: [id])
-  createdAt       DateTime @default(now())
+  category        Category      @relation(fields: [categoryId], references: [id])
+  createdAt       DateTime      @default(now())
   reviews         Review[]
+  orderedBooks    OrderedBook[]
 }
 
 model Review {
@@ -71,19 +72,22 @@ enum Status {
 }
 
 model Order {
-  id           String @id @default(uuid())
+  id           String        @id @default(uuid())
   userId       String
-  user         User   @relation(fields: [userId], references: [id])
-  status       Status @default(pending)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  orderedBooks OrderedBook[]
+  user         User          @relation(fields: [userId], references: [id])
+  status       Status        @default(pending)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  orderedBooks OrderedBook[] 
 }
 
 model OrderedBook {
-  id       String @id @default(uuid())
-  bookId   String // Assuming book IDs are stored as strings (UUIDs)
+  // id       String @id @default(uuid())
+  bookId   String
+  book     Book   @relation(fields: [bookId], references: [id])
   quantity Int
   orderId  String
   order    Order  @relation(fields: [orderId], references: [id])
+
+  @@id([bookId, orderId])
 }
