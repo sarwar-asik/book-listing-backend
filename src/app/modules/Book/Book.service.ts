@@ -4,6 +4,7 @@
 import { Book } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
 
 
 
@@ -51,18 +52,45 @@ type IFilters = {
 };
 
 
-const getAllDB = async (filters:IFilters,options:IPaginationOptions): Promise<Book[]> => {
+const getAllDB = async (filters:IFilters,options:IPaginationOptions): Promise<IGenericResponse<Book[]>> => {
 
   console.log(filters,"ffffffff");
   
   console.log(options,"oooo");
+
+  // const {page=1,size=5,sortOrder="asc",} = options
+
+  const page = Number(options.page || 1);
+  const limit = Number(options.size || 10);
+  const skip = (page - 1) * limit;
+
+  const sortBy = options.sortBy || 'createdAt';
+  const sortOrder = options.sortOrder || 'desc';
+
+  // console.log(page,limit,skip,'sss');
+
+
   const result = await prisma.book.findMany({
     include:{
-      category:true
-    }
-  });
+      category:true,
+    },
+    take:limit,
+    skip:skip,
+    orderBy:{
+      [sortBy]:sortOrder
+    },
+    
+  });   
 
-  return result;
+  const total = await prisma.book.count();
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
 };
 
 

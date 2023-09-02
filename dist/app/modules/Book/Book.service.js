@@ -27,15 +27,15 @@ const insertDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     // const date2 = "2023-09-02T06:46:40.626Z";
     const isoDate1 = covertDateFormate(data === null || data === void 0 ? void 0 : data.publicationDate);
     data.publicationDate = isoDate1;
-    console.log(data, 'fffff');
-    return data;
-    // const result = await prisma.book.create({
-    //   data,
-    //   include:{
-    //     category:true
-    //   }
-    // });
-    // return result;
+    // console.log(data,'fffff');
+    // return data
+    const result = yield prisma_1.default.book.create({
+        data,
+        include: {
+            category: true
+        }
+    });
+    return result;
 });
 const getAllDB = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(filters, "ffffffff");

@@ -6,6 +6,7 @@ import httpStatus from "http-status";
 import { BookService } from "./Book.service";
 import { Book } from "@prisma/client";
 import pick from "../../../shared/pick";
+import { IGenericResponse } from "../../../interfaces/common";
 
 
 const insertDB = catchAsync(async (req: Request, res: Response) => {
@@ -45,7 +46,7 @@ const getAllDB = catchAsync(async (req: Request, res: Response) => {
  
   const result = await BookService.getAllDB(filters,options)
 
-  sendResponse<Book[]>(res, {
+  sendResponse<IGenericResponse<Book[]>>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: 'Successfully Fetched Book',
