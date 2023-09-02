@@ -12,23 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AUthService = void 0;
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const insertDb = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    data.password = yield bcrypt_1.default.hash(data.password, Number(10));
-    // console.log(data);
-    const signUp = yield prisma_1.default.user.create({
-        data,
+exports.ProfileController = void 0;
+const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+const http_status_1 = __importDefault(require("http-status"));
+const Profile_service_1 = require("./Profile.service");
+const getProfileDataById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const userRole = req === null || req === void 0 ? void 0 : req.user;
+    const result = yield Profile_service_1.ProfileService.getProfileData(id, userRole);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: `Profile retrieved successfully ${id}`,
+        data: result,
     });
-    return {
-        id: signUp.id,
-        name: signUp.name,
-        email: signUp === null || signUp === void 0 ? void 0 : signUp.email,
-        role: signUp.role,
-        contactNo: signUp === null || signUp === void 0 ? void 0 : signUp.contactNo,
-        address: signUp === null || signUp === void 0 ? void 0 : signUp.address,
-        profileImg: signUp === null || signUp === void 0 ? void 0 : signUp.profileImg,
-    };
-});
-exports.AUthService = { insertDb };
+}));
+exports.ProfileController = { getProfileDataById };

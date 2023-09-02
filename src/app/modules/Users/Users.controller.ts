@@ -23,11 +23,14 @@ const getAllDB = catchAsync(async (req: Request, res: Response) => {
  
   const result = await UsersService.getAllDB()
 
-  sendResponse<User[]>(res, {
+  // eslint-disable-next-line no-unused-vars
+  const newArray = result.map(({ password, ...rest }) => rest);
+
+  sendResponse<Partial<User>[]>(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: 'Successfully Fetched Users',
-    data: result,
+    data: newArray,
   });
 });
 
@@ -52,11 +55,15 @@ const data = req?.body;
 
   const result = await UsersService.updateItoDb(id,data);
 
-  sendResponse<User>(res, {
+  const {password,...resData} = result;
+
+  console.log("🚀 ~ file: Users.controller.ts:59 ~ updateIntoDb ~ password:", password)
+
+  sendResponse<Partial<User>>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Successfully updated ${id}`,
-    data: result,
+    message: `User updated successfully`,
+    data: resData,
   });
 });
 
@@ -66,11 +73,14 @@ const deleteFromDb = catchAsync(async (req: Request, res: Response) => {
 
   const result = await UsersService.deleteFromDb(id)
 
-  sendResponse<User>(res, {
+  const {password,...resData} = result;
+  console.log("🚀 ~ file: Users.controller.ts:77 ~ deleteFromDb ~ password:", password)
+
+  sendResponse<Partial<User>>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Successfully deleted ${id}`,
-    data: result,
+    message: `Users deleted successfully`,
+    data: resData,
   });
 });
 

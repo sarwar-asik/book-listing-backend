@@ -15,13 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const insertDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.book.create({
-        data,
-        include: {
-            category: true
+    function covertDateFormate(inputDate) {
+        const dateObject = new Date(inputDate);
+        if (isNaN(dateObject.getTime())) {
+            return null;
         }
-    });
-    return result;
+        const isoDate = dateObject.toISOString();
+        return isoDate;
+    }
+    // const date1 = "1951-07-16";
+    // const date2 = "2023-09-02T06:46:40.626Z";
+    const isoDate1 = covertDateFormate(data === null || data === void 0 ? void 0 : data.publicationDate);
+    data.publicationDate = isoDate1;
+    console.log(data, 'fffff');
+    return data;
+    // const result = await prisma.book.create({
+    //   data,
+    //   include:{
+    //     category:true
+    //   }
+    // });
+    // return result;
 });
 const getAllDB = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(filters, "ffffffff");

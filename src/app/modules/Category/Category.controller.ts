@@ -69,7 +69,7 @@ const deleteFromDb = catchAsync(async (req: Request, res: Response) => {
   sendResponse<Category>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Successfully deleted ${id}`,
+    message: `Category deleted successfully`,
     data: result,
   });
 });

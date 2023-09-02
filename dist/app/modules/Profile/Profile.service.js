@@ -12,23 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AUthService = void 0;
+exports.ProfileService = void 0;
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const insertDb = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    data.password = yield bcrypt_1.default.hash(data.password, Number(10));
-    // console.log(data);
-    const signUp = yield prisma_1.default.user.create({
-        data,
+const getProfileData = (id, userRole) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(userRole);
+    const result = yield prisma_1.default.user.findUnique({
+        where: {
+            id: userRole === null || userRole === void 0 ? void 0 : userRole.userId,
+        },
     });
-    return {
-        id: signUp.id,
-        name: signUp.name,
-        email: signUp === null || signUp === void 0 ? void 0 : signUp.email,
-        role: signUp.role,
-        contactNo: signUp === null || signUp === void 0 ? void 0 : signUp.contactNo,
-        address: signUp === null || signUp === void 0 ? void 0 : signUp.address,
-        profileImg: signUp === null || signUp === void 0 ? void 0 : signUp.profileImg,
-    };
+    return result;
 });
-exports.AUthService = { insertDb };
+exports.ProfileService = { getProfileData };

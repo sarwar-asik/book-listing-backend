@@ -8,6 +8,27 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 
 
 const insertDB = async (data: Book): Promise<Book> => {
+
+  function covertDateFormate(inputDate: string | Date): Date | string | null {
+    const dateObject = new Date(inputDate);
+    if (isNaN(dateObject.getTime())) {
+      return null;
+    }
+    const isoDate = dateObject.toISOString();
+    return isoDate;
+  }
+  
+  // const date1 = "1951-07-16";
+  // const date2 = "2023-09-02T06:46:40.626Z";
+  
+  const isoDate1 = covertDateFormate(data?.publicationDate);
+
+  data.publicationDate = isoDate1 as Date
+
+
+  // console.log(data,'fffff');
+  // return data
+
   const result = await prisma.book.create({
     data,
     include:{
