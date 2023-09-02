@@ -1,13 +1,16 @@
 
-import {  Prisma,Profile } from '@prisma/client';
+
+import { User } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
-const insertDB = async (data: Profile): Promise<Profile> => {
-  const result = await prisma.Profile.create({
-    data,
+const getProfileData = async (id: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id,
+    },
   });
 
   return result;
 };
 
-export const ProfileService = {insertDB};
+export const ProfileService = {getProfileData};
