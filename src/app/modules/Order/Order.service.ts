@@ -3,6 +3,8 @@
 
 import { Order } from '@prisma/client';
 import prisma from '../../../shared/prisma';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 type IOrder = Order & {
   orderedBooks: {
@@ -29,8 +31,20 @@ const insertDB = async (data: IOrder): Promise<Order> => {
 
   return result;
 };
-const getAllDB = async (userRole:{userId:string}): Promise<Order[]> => {
-  console.log(userRole.userId);
+const getAllDB = async (userRole:{userId:string} | null): Promise<Order[]> => {
+  // console.log(userRole.userId);
+
+  const isUserExits = await prisma.user.findUnique({
+    where:{
+      id:userRole?.userId
+    }
+  })
+  // console.log(isUserExits);
+
+  if(!isUserExits){
+    throw new ApiError(httpStatus.BAD_REQUEST,"User is not exits")
+  }
+
   const result = await prisma.order.findMany({
     where:{
       userId:userRole?.userId

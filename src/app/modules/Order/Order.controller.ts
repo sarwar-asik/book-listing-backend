@@ -22,7 +22,7 @@ const insertDB = catchAsync(async (req: Request, res: Response) => {
 
 const getAllDB = catchAsync(async (req: Request, res: Response) => {
 
-  const userRole  = req?.user
+  const userRole:any  = req?.user
   console.log(userRole);
  
   const result = await OrderService.getAllDB(userRole)
