@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express';
+import auth from '../../middlewares/auth';
+import { ENUM_USER_ROLE } from '../../../enums/user';
 import { ProfileController } from './Profile.controller';
-import {ProfileValidation } from './Profile.validation';
+
 const router = Router();
-router.get('/')
-router.post('/')
+router.get('/',auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER),ProfileController.getProfileDataById)
+
 
 export const profileRoutes = router;
 
