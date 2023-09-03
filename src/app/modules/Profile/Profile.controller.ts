@@ -7,15 +7,15 @@ import { ProfileService } from "./Profile.service";
 import { User } from "@prisma/client";
 
 const getProfileDataById = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
+  // const id = req.params.id;
   const userRole:any = req?.user
 
-  const result = await ProfileService.getProfileData(id,userRole)
+  const result = await ProfileService.getProfileData(userRole)
 
   sendResponse<User>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Profile retrieved successfully ${id}`,
+    message: `Profile retrieved successfully `,
     data: result,
   });
 });
