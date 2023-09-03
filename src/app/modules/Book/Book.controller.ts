@@ -87,6 +87,8 @@ const updateIntoDb = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 const data = req?.body;
 
+
+
 // console.log(id,data,'dddddd');
 
   const result = await BookService.updateItoDb(id,data);

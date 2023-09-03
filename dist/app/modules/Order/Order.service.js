@@ -13,80 +13,107 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
-const prisma_1 = __importDefault(require("../../../shared/prisma"));
-const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
+const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const insertDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.order.create({
         data: {
             userId: data.userId,
             orderedBooks: {
-                create: data === null || data === void 0 ? void 0 : data.orderedBooks.map((book) => ({
+                create: data === null || data === void 0 ? void 0 : data.orderedBooks.map(book => ({
                     bookId: book.bookId,
                     quantity: book.quantity,
                 })),
-            }
+            },
         },
         include: {
-            orderedBooks: true
-        }
+            orderedBooks: true,
+        },
     });
     return result;
 });
 const getAllDB = (userRole) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(userRole.userId);
+    if ((userRole === null || userRole === void 0 ? void 0 : userRole.role) === 'admin') {
+        const result = yield prisma_1.default.order.findMany({
+            include: {
+                orderedBooks: true,
+            },
+        });
+        return result;
+    }
     const isUserExits = yield prisma_1.default.user.findUnique({
         where: {
-            id: userRole === null || userRole === void 0 ? void 0 : userRole.userId
-        }
+            id: userRole === null || userRole === void 0 ? void 0 : userRole.userId,
+        },
     });
     // console.log(isUserExits);
     if (!isUserExits) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "User is not exits");
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'User is not exits');
     }
     const result = yield prisma_1.default.order.findMany({
         where: {
-            userId: userRole === null || userRole === void 0 ? void 0 : userRole.userId
+            userId: userRole === null || userRole === void 0 ? void 0 : userRole.userId,
         },
         include: {
-            orderedBooks: true
-        }
+            orderedBooks: true,
+        },
     });
     return result;
 });
-const getSingleData = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.order.findUnique({
+const getSingleData = (id, userRole) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(userRole, 'userRole');
+    if ((userRole === null || userRole === void 0 ? void 0 : userRole.role) === 'admin') {
+        const result = yield prisma_1.default.order.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                orderedBooks: true,
+            },
+        });
+        return result;
+    }
+    const result = yield prisma_1.default.order.findMany({
         where: {
+            userId: userRole === null || userRole === void 0 ? void 0 : userRole.userId,
             id,
         },
         include: {
-            orderedBooks: true
-        }
+            orderedBooks: true,
+        },
     });
-    return result;
+    return result[0];
 });
 const updateItoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(id, payload);
     const result = yield prisma_1.default.order.update({
         where: {
-            id
+            id,
         },
         data: payload,
         include: {
-            orderedBooks: true
-        }
+            orderedBooks: true,
+        },
     });
     return result;
 });
 const deleteFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.order.delete({
         where: {
-            id
+            id,
         },
         include: {
-            orderedBooks: true
-        }
+            orderedBooks: true,
+        },
     });
     return result;
 });
-exports.OrderService = { insertDB, getAllDB, getSingleData, updateItoDb, deleteFromDb };
+exports.OrderService = {
+    insertDB,
+    getAllDB,
+    getSingleData,
+    updateItoDb,
+    deleteFromDb,
+};

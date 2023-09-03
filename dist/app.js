@@ -15,14 +15,14 @@ app.use((0, cookie_parser_1.default)());
 //parser
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-// app.use('/', (req: Request, res: Response) => {
-//   console.log(req?.body,"https//:localhost:5000/");
-//   res.json({
-//     status:httpStatus.OK,
-//     message:'book-listing-server server is running on 5000'
-//   });
-// });
 app.use('/api/v1', routes_1.default);
+app.use('/', (req, res) => {
+    // console.log(req?.body,"https//:localhost:5000/");
+    res.json({
+        status: http_status_1.default.CONTINUE,
+        message: 'book-listing-server server is running on 5000'
+    });
+});
 //global error handler
 app.use(globalErrorHandler_1.default);
 //handle not found

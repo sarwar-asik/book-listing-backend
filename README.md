@@ -21,12 +21,12 @@
 - api/v1/categories (GET) --done
 - api/v1/categories/9b016e05-9a9c-4ac4-b165-70c33f465269 (Single GET) --done
 - api/v1/categories/28687700-6289-4b74-b920-70b0e0829d83 (PATCH) --done
-- api/v1/categories/3e5c9ad0-e88a-483e-a9ba-558cf983e80f (DELETE) 
+- api/v1/categories/3e5c9ad0-e88a-483e-a9ba-558cf983e80f (DELETE) --done
 
 ### Books
 
 - api/v1/books/create-book (POST)  --done
-- api/v1/books (GET)
+- api/v1/books (GET)  --done
 - api/v1/books/9b016e05-9a9c-4ac4-b165-70c33f465269?page=1&size=3 (GET by categoryId) --done
 - api/v1/books/9b016e05-9a9c-4ac4-b165-70c33f465269 (GET by id) --done
 - api/v1/books/:id (PATCH)  --done

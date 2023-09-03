@@ -1,9 +1,13 @@
-import { Book, Prisma } from '@prisma/client';
+import { Book } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 
 const insertDB = async (data: Book): Promise<Book> => {
+
+
+  // ! for received "1951-07-16"  and "2023-09-02T06:46:40.626Z"   type date time
+
   function covertDateFormate(inputDate: string | Date): Date | string | null {
     const dateObject = new Date(inputDate);
     if (isNaN(dateObject.getTime())) {
@@ -36,131 +40,152 @@ const insertDB = async (data: Book): Promise<Book> => {
 type IFilters = {
   search?: string;
   minPrice?: string;
- maxPrice?: string;
+  maxPrice?: string;
   category?: string;
-  roomId?: string;
-  facultyId?: string;
   title?: string;
   price?: string;
   genre?: string;
-  publicationDate?:string;
-  author?:string;
+  publicationDate?: string;
+  author?: string;
   // [key: string]: string | number | undefined;
 };
+
+// ! here included pagination , filtering ,searching by my own
 
 const getAllDB = async (
   filters: Partial<IFilters>,
   options: IPaginationOptions
 ): Promise<IGenericResponse<Book[]>> => {
+
   console.log(filters, 'ffffffff');
 
   console.log(options, 'oooo');
 
   // const {page=1,size=5,sortOrder="asc",} = options
-
+// ! for pagination ///
   const page = Number(options.page || 1);
   const limit = Number(options.size || 10);
   const skip = (page - 1) * limit;
 
   const sortBy = options.sortBy || 'createdAt';
-  const sortOrder = options.sortOrder || 'desc';
+  const sortOrder = options.sortOrder || 'asc';
 
-  // console.log(page,limit,skip,'sss');
+  const where: { OR?: any ;AND?:any} = {};
 
-  // const { category, ...search } = filters;
 
-  // console.log("category",category,"search",search);
+  // ! for filter data from Book Table
 
-  // const searchArray =[]
+  if (
+    filters?.title ||
+    filters?.author ||
+    filters?.genre ||
+    filters?.category || 
+    filters?.search
+  ) {
+    where.OR = [];
+    if (filters?.title ) {
+      where.OR.push({
+        title: {
+          contains: filters.title ,
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (filters?.author) {
+      where.OR.push({
+        author: {
+          contains: filters.author ,
+          mode: 'insensitive',
+        },
+      });
+    }
 
-  // for (const key in search) {
-  //   if (Object.prototype.hasOwnProperty.call(search, key)) {
-  //     const condition = {
-  //       [key as keyof typeof search]: {
-  //         contains: search[key ] as string,
-  //         mode: 'insensitive',
-  //       },
-  //     };
-  //     searchArray.push(condition);
-  //   }
-  // }
+    if (filters?.genre) {
+      where.OR.push({
+        genre: {
+          contains: filters.genre,
+          mode: 'insensitive',
+        },
+      });
+    }
+    if (filters?.category) {
+      where.OR.push({
+        AND: [
+          {
+            categoryId: {
+              equals: filters.category,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      });
+    }
+    if(filters?.search){
+     where.OR.push(
+      {
+      title: {
+        contains: filters.search,
+        mode: 'insensitive',
+      },
+     }
+     ,
+      {
+      author: {
+        contains: filters.search,
+        mode: 'insensitive',
+      },
+     },
+      {
+      genre: {
+        contains: filters.search,
+        mode: 'insensitive',
+      },
+     }
+     )
+    }
+  }
 
-  // console.log(...searchArray,'ssssssss');
-  const where:Prisma.BookWhereInput = {
-    ...(filters?.minPrice && { price: { gte: parseInt(filters?.minPrice, 10) } }),
-    ...(filters?.maxPrice && { price: { lte: parseInt(filters?.maxPrice, 10) } }),
-    ...(filters?.category && { categoryId: filters?.category }), // Filter by category ID
-    ...(filters?.search && {
-      OR: [
-        { title: { contains: filters?.search, mode: 'insensitive' } },
-        { author: { contains: filters?.search, mode: 'insensitive' } },
-        { genre: { contains:filters?.search, mode: 'insensitive' } },
-      ],
-    }),
-  };
+  // ! for filtering with minPrice and maxPrice ////
+
+
+  if (filters.minPrice || filters.maxPrice) {
+    if (filters.minPrice && filters.maxPrice) {
   
+      where.AND = [
+        {
+          price: {
+            gte: parseFloat(filters.minPrice),
+            lte: parseFloat(filters.maxPrice),
+          },
+        },
+      ];
+    } else if (filters.minPrice) {
+   
+      where.AND = [
+        {
+          price: {
+            gte: parseFloat(filters.minPrice),
+          },
+        },
+      ];
+    } else if (filters.maxPrice) {
+
+      where.AND = [
+        {
+          price: {
+            lte: parseFloat(filters.maxPrice),
+          },
+        },
+      ];
+    }
+  }
 
   const result = await prisma.book.findMany({
     where,
-    // where:
-    //  {
-      // ! for filter
-      // categoryId: {
-      //   [category ? 'equals' : 'contains']: category,
-      //   mode: 'insensitive',
-      // },
-
-     //! for search
-
-    //  [searchArray?.length>0?"OR":"title"]: searchArray
-    // OR: searchArray.length > 0
-    // ? [...searchArray]
-    // : [
-    //     {
-    //       [category?"title":"categoryId"]: {
-    //         contains: '',
-    //         mode: 'insensitive',
-    //       },
-    //     },
-    //   ],
-
-    
-
-
-    // ...(filters?.category && { categoryId: "eebfd026-cdf8-4558-8da4-44167250a71d" }),
-    
-    // OR: [
-    //   {
-    //     categoryId: {
-    //       equals: filters?.category || "",
-    //       mode: 'insensitive',
-    //     },
-    //   },
-    //   {
-    //     title: {
-    //       contains: filters?.title || '', 
-    //       mode: 'insensitive',
-    //     },
-    //   },
-    //   {
-    //     author: {
-    //       contains: filters?.author || '',
-    //       mode: 'insensitive',
-    //     },
-    //   },
-    //   {
-    //     genre: {
-    //       contains: filters?.genre || '', 
-    //       mode: 'insensitive',
-    //     },
-    //   },
-    // ],
-  
-    // },
-
     include: {
       category: true,
     },
+
     // !for pagination
     take: limit,
     skip: skip,
@@ -174,7 +199,7 @@ const getAllDB = async (
     meta: {
       total,
       page,
-      size:limit,
+      size: limit,
     },
     data: result,
   };
@@ -195,8 +220,12 @@ const getSingleData = async (id: string): Promise<Book | null> => {
 };
 
 
-const getSingleByCategoryData = async (id: string,options:IPaginationOptions): Promise<IGenericResponse<Book[]> | null | Book> => {
+// ! this function for get single categoryId or id in Book table
 
+const getSingleByCategoryData = async (
+  id: string,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Book[]> | null | Book> => {
   const resultById = await prisma.book.findUnique({
     where: {
       id,
@@ -206,8 +235,8 @@ const getSingleByCategoryData = async (id: string,options:IPaginationOptions): P
     },
   });
 
-  if(resultById){
-    return resultById
+  if (resultById) {
+    return resultById;
   }
 
   const page = Number(options.page || 1);
@@ -219,8 +248,7 @@ const getSingleByCategoryData = async (id: string,options:IPaginationOptions): P
   // console.log(id,"id from sing");
   const result = await prisma.book.findMany({
     where: {
-      categoryId:id,
-      
+      categoryId: id,
     },
     include: {
       category: true,
@@ -237,7 +265,7 @@ const getSingleByCategoryData = async (id: string,options:IPaginationOptions): P
     meta: {
       total,
       page,
-      size:limit,
+      size: limit,
     },
     data: result,
   };
@@ -277,5 +305,5 @@ export const BookService = {
   getSingleData,
   updateItoDb,
   deleteFromDb,
-  getSingleByCategoryData
+  getSingleByCategoryData,
 };

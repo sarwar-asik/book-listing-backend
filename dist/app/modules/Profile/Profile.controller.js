@@ -18,13 +18,13 @@ const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
 const Profile_service_1 = require("./Profile.service");
 const getProfileDataById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
+    // const id = req.params.id;
     const userRole = req === null || req === void 0 ? void 0 : req.user;
-    const result = yield Profile_service_1.ProfileService.getProfileData(id, userRole);
+    const result = yield Profile_service_1.ProfileService.getProfileData(userRole);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: `Profile retrieved successfully ${id}`,
+        message: `Profile retrieved successfully `,
         data: result,
     });
 }));
