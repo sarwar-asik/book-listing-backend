@@ -64,7 +64,21 @@ const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
   sendResponse<Book>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Successfully get Book ${id}`,
+    message: `Book fetched successfully`,
+    data: result,
+  });
+});
+const getSingleByCategoryDataById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.categoryId;
+
+  const options = pick(req.query, ['size', 'page', 'sortBy', 'sortOrder'])
+
+  const result = await BookService.getSingleByCategoryData(id,options)
+
+  sendResponse<IGenericResponse<Book[]>| Book>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: `Book fetched by category successfully`,
     data: result,
   });
 });
@@ -72,6 +86,8 @@ const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
 const updateIntoDb = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 const data = req?.body;
+
+// console.log(id,data,'dddddd');
 
   const result = await BookService.updateItoDb(id,data);
 
@@ -97,4 +113,4 @@ const deleteFromDb = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const BookController = {insertDB,getAllDB,getSingleDataById,updateIntoDb,deleteFromDb};
+export const BookController = {insertDB,getAllDB,getSingleDataById,updateIntoDb,deleteFromDb,getSingleByCategoryDataById};

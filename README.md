@@ -27,10 +27,10 @@
 
 - api/v1/books/create-book (POST)  --done
 - api/v1/books (GET)
-- api/v1/books/:categoryId (GET)
-- api/v1/books/:id (GET)
-- api/v1/books/:id (PATCH)
-- api/v1/books/:id (DELETE)
+- api/v1/books/9b016e05-9a9c-4ac4-b165-70c33f465269?page=1&size=3 (GET by categoryId) --done
+- api/v1/books/9b016e05-9a9c-4ac4-b165-70c33f465269 (GET by id) --done
+- api/v1/books/:id (PATCH)  --done
+- api/v1/books/:id (DELETE)  --done
 
 ### Orders
 

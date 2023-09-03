@@ -45,7 +45,7 @@ type IFilters = {
   genre?: string;
   publicationDate?:string;
   author?:string;
-  [key: string]: string | number | undefined;
+  // [key: string]: string | number | undefined;
 };
 
 const getAllDB = async (
@@ -174,13 +174,14 @@ const getAllDB = async (
     meta: {
       total,
       page,
-      limit,
+      size:limit,
     },
     data: result,
   };
 };
 
 const getSingleData = async (id: string): Promise<Book | null> => {
+  // console.log(id,"id from sing");
   const result = await prisma.book.findUnique({
     where: {
       id,
@@ -193,11 +194,60 @@ const getSingleData = async (id: string): Promise<Book | null> => {
   return result;
 };
 
+
+const getSingleByCategoryData = async (id: string,options:IPaginationOptions): Promise<IGenericResponse<Book[]> | null | Book> => {
+
+  const resultById = await prisma.book.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      category: true,
+    },
+  });
+
+  if(resultById){
+    return resultById
+  }
+
+  const page = Number(options.page || 1);
+  const limit = Number(options.size || 10);
+  const skip = (page - 1) * limit;
+
+  const sortBy = options.sortBy || 'createdAt';
+  const sortOrder = options.sortOrder || 'desc';
+  // console.log(id,"id from sing");
+  const result = await prisma.book.findMany({
+    where: {
+      categoryId:id,
+      
+    },
+    include: {
+      category: true,
+    },
+    take: limit,
+    skip: skip,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  });
+
+  const total = await prisma.book.count();
+  return {
+    meta: {
+      total,
+      page,
+      size:limit,
+    },
+    data: result,
+  };
+};
+
 const updateItoDb = async (
   id: string,
   payload: Partial<Book>
 ): Promise<Book> => {
-  console.log(id, payload);
+  // console.log(id, payload);
   const result = await prisma.book.update({
     where: {
       id,
@@ -227,4 +277,5 @@ export const BookService = {
   getSingleData,
   updateItoDb,
   deleteFromDb,
+  getSingleByCategoryData
 };
