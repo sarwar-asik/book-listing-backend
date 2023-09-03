@@ -57,13 +57,25 @@ const getSingleDataById = (0, catchAsync_1.default)((req, res) => __awaiter(void
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: `Successfully get Book ${id}`,
+        message: `Book fetched successfully`,
+        data: result,
+    });
+}));
+const getSingleByCategoryDataById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.categoryId;
+    const options = (0, pick_1.default)(req.query, ['size', 'page', 'sortBy', 'sortOrder']);
+    const result = yield Book_service_1.BookService.getSingleByCategoryData(id, options);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: `Book fetched by category successfully`,
         data: result,
     });
 }));
 const updateIntoDb = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
     const data = req === null || req === void 0 ? void 0 : req.body;
+    // console.log(id,data,'dddddd');
     const result = yield Book_service_1.BookService.updateItoDb(id, data);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -82,4 +94,4 @@ const deleteFromDb = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
-exports.BookController = { insertDB, getAllDB, getSingleDataById, updateIntoDb, deleteFromDb };
+exports.BookController = { insertDB, getAllDB, getSingleDataById, updateIntoDb, deleteFromDb, getSingleByCategoryDataById };

@@ -34,6 +34,6 @@
 
 ### Orders
 
-- api/v1/orders/create-order (POST)
-- api/v1/orders (GET) 
-- api/v1/orders/:orderId (GET)
+- api/v1/orders/create-order (POST)  --done
+- api/v1/orders (GET)  --done
+- api/v1/orders/:b7b60c4d-b1be-47d9-ab0e-ef72da1dd85d (Get by orderId)  --done

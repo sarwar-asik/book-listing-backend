@@ -7,6 +7,7 @@ import httpStatus from "http-status";
 import { Order } from "@prisma/client";
 import { OrderService } from "./Order.service";
 
+
 const insertDB = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
   const result = await OrderService.insertDB(data)
@@ -39,8 +40,9 @@ const getAllDB = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+  const userRole:any =req.user
 
-  const result = await OrderService.getSingleData(id);
+  const result = await OrderService.getSingleData(id,userRole);
 
   sendResponse<Order>(res, {
     statusCode: httpStatus.OK,

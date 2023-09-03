@@ -32,51 +32,191 @@ const insertDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.book.create({
         data,
         include: {
-            category: true
-        }
+            category: true,
+        },
     });
     return result;
 });
 const getAllDB = (filters, options) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(filters, "ffffffff");
-    console.log(options, "oooo");
+    console.log(filters, 'ffffffff');
+    console.log(options, 'oooo');
+    // const {page=1,size=5,sortOrder="asc",} = options
+    const page = Number(options.page || 1);
+    const limit = Number(options.size || 10);
+    const skip = (page - 1) * limit;
+    const sortBy = options.sortBy || 'createdAt';
+    const sortOrder = options.sortOrder || 'desc';
+    // console.log(page,limit,skip,'sss');
+    // const { category, ...search } = filters;
+    // console.log("category",category,"search",search);
+    // const searchArray =[]
+    // for (const key in search) {
+    //   if (Object.prototype.hasOwnProperty.call(search, key)) {
+    //     const condition = {
+    //       [key as keyof typeof search]: {
+    //         contains: search[key ] as string,
+    //         mode: 'insensitive',
+    //       },
+    //     };
+    //     searchArray.push(condition);
+    //   }
+    // }
+    // console.log(...searchArray,'ssssssss');
+    const where = Object.assign(Object.assign(Object.assign(Object.assign({}, ((filters === null || filters === void 0 ? void 0 : filters.minPrice) && { price: { gte: parseInt(filters === null || filters === void 0 ? void 0 : filters.minPrice, 10) } })), ((filters === null || filters === void 0 ? void 0 : filters.maxPrice) && { price: { lte: parseInt(filters === null || filters === void 0 ? void 0 : filters.maxPrice, 10) } })), ((filters === null || filters === void 0 ? void 0 : filters.category) && { categoryId: filters === null || filters === void 0 ? void 0 : filters.category })), ((filters === null || filters === void 0 ? void 0 : filters.search) && {
+        OR: [
+            { title: { contains: filters === null || filters === void 0 ? void 0 : filters.search, mode: 'insensitive' } },
+            { author: { contains: filters === null || filters === void 0 ? void 0 : filters.search, mode: 'insensitive' } },
+            { genre: { contains: filters === null || filters === void 0 ? void 0 : filters.search, mode: 'insensitive' } },
+        ],
+    }));
     const result = yield prisma_1.default.book.findMany({
+        where,
+        // where:
+        //  {
+        // ! for filter
+        // categoryId: {
+        //   [category ? 'equals' : 'contains']: category,
+        //   mode: 'insensitive',
+        // },
+        //! for search
+        //  [searchArray?.length>0?"OR":"title"]: searchArray
+        // OR: searchArray.length > 0
+        // ? [...searchArray]
+        // : [
+        //     {
+        //       [category?"title":"categoryId"]: {
+        //         contains: '',
+        //         mode: 'insensitive',
+        //       },
+        //     },
+        //   ],
+        // ...(filters?.category && { categoryId: "eebfd026-cdf8-4558-8da4-44167250a71d" }),
+        // OR: [
+        //   {
+        //     categoryId: {
+        //       equals: filters?.category || "",
+        //       mode: 'insensitive',
+        //     },
+        //   },
+        //   {
+        //     title: {
+        //       contains: filters?.title || '', 
+        //       mode: 'insensitive',
+        //     },
+        //   },
+        //   {
+        //     author: {
+        //       contains: filters?.author || '',
+        //       mode: 'insensitive',
+        //     },
+        //   },
+        //   {
+        //     genre: {
+        //       contains: filters?.genre || '', 
+        //       mode: 'insensitive',
+        //     },
+        //   },
+        // ],
+        // },
         include: {
-            category: true
-        }
+            category: true,
+        },
+        // !for pagination
+        take: limit,
+        skip: skip,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
     });
-    return result;
+    const total = yield prisma_1.default.book.count();
+    return {
+        meta: {
+            total,
+            page,
+            size: limit,
+        },
+        data: result,
+    };
 });
 const getSingleData = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id,"id from sing");
     const result = yield prisma_1.default.book.findUnique({
         where: {
             id,
         },
         include: {
-            category: true
-        }
+            category: true,
+        },
     });
     return result;
 });
+const getSingleByCategoryData = (id, options) => __awaiter(void 0, void 0, void 0, function* () {
+    const resultById = yield prisma_1.default.book.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            category: true,
+        },
+    });
+    if (resultById) {
+        return resultById;
+    }
+    const page = Number(options.page || 1);
+    const limit = Number(options.size || 10);
+    const skip = (page - 1) * limit;
+    const sortBy = options.sortBy || 'createdAt';
+    const sortOrder = options.sortOrder || 'desc';
+    // console.log(id,"id from sing");
+    const result = yield prisma_1.default.book.findMany({
+        where: {
+            categoryId: id,
+        },
+        include: {
+            category: true,
+        },
+        take: limit,
+        skip: skip,
+        orderBy: {
+            [sortBy]: sortOrder,
+        },
+    });
+    const total = yield prisma_1.default.book.count();
+    return {
+        meta: {
+            total,
+            page,
+            size: limit,
+        },
+        data: result,
+    };
+});
 const updateItoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(id, payload);
+    // console.log(id, payload);
     const result = yield prisma_1.default.book.update({
         where: {
-            id
+            id,
         },
         data: payload,
         include: {
-            category: true
-        }
+            category: true,
+        },
     });
     return result;
 });
 const deleteFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.book.delete({
         where: {
-            id
-        }
+            id,
+        },
     });
     return result;
 });
-exports.BookService = { insertDB, getAllDB, getSingleData, updateItoDb, deleteFromDb };
+exports.BookService = {
+    insertDB,
+    getAllDB,
+    getSingleData,
+    updateItoDb,
+    deleteFromDb,
+    getSingleByCategoryData
+};

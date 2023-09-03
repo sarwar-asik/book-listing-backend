@@ -18,7 +18,7 @@ router.post(
 router.get('/',  auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER), OrderController.getAllDB);
 router.get(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER),
   OrderController.getSingleDataById
 );
 router.patch(
