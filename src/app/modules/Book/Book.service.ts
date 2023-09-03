@@ -195,6 +195,9 @@ const getAllDB = async (
   });
 
   const total = await prisma.book.count();
+  
+  // const resultDataNUmber =  result?.length
+
   return {
     meta: {
       total,
