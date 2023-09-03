@@ -1,12 +1,26 @@
 ### Book-listing-Backend :::
 
+### used Tech 
+
+                Express,
+                Prisma ,
+
+                PostgresSQL,
+                Vercel 
+                railway
 
 
-#### live url ::::  https://book-listing-backend.vercel.app
+
+#### Live Link ::::  https://book-listing-backend.vercel.app
 
 ### Application Routes:
 
 #### User
+
+Token for admin is(for testing) :::
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOiI3MGM0YTRhNS01YTczLTRiMzMtYTg1MC1lYjAzOTFjZjk2ZjMiLCJpYXQiOjE2OTM3MzQ3NDZ9.wZWaNiHuHnqmyKToyn9HbCQ7_9UjHsldRBwt_vdmk2o
+
 
 - api/v1/auth/signup (POST)  --done
 - api/v1/users (GET)   --done
@@ -33,6 +47,10 @@
 - api/v1/books/:id (DELETE)  --done
 
 ### Orders
+
+customer token(for testing)
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiI3MGM0YTRhNS01YTczLTRiMzMtYTg1MC1lYjAzOTFjZjk2ZjMiLCJpYXQiOjE2OTM3MzQ3NDZ9.iPzMZmBU-sw0cqhDjfIbCCOdIKpG8kdf4GvHW8UpeYM
 
 - api/v1/orders/create-order (POST)  --done
 - api/v1/orders (GET)  --done

@@ -29,6 +29,9 @@ const getSingleData = (id) => __awaiter(void 0, void 0, void 0, function* () {
         where: {
             id,
         },
+        include: {
+            books: true
+        }
     });
     return result;
 });
