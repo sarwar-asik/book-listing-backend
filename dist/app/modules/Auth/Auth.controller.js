@@ -28,13 +28,14 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const Auth_services_1 = require("./Auth.services");
+const config_1 = __importDefault(require("../../../config"));
 const signUpDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = req === null || req === void 0 ? void 0 : req.body;
     const result = yield Auth_services_1.AUthService.insertDb(userData);
-    const { password } = result, data = __rest(result, ["password"]);
-    console.log(password);
-    // console.log(result,"rrrrr");
     if (result) {
+        const { password } = result, data = __rest(result, ["password"]);
+        console.log(password);
+        // console.log(result,"rrrrr");
         (0, sendResponse_1.default)(res, {
             success: true,
             statusCode: http_status_1.default.CREATED,
@@ -43,4 +44,20 @@ const signUpDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
         });
     }
 }));
-exports.AuthController = { signUpDB };
+const signIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const loginData = __rest(req.body, []);
+    // console.log(loginData,"asdfsd");
+    const token = yield Auth_services_1.AUthService.authSignIN(loginData);
+    const cookieOption = {
+        secure: config_1.default.env === 'production',
+        httpOnly: true,
+    };
+    res.cookie('JWTToken', token, cookieOption);
+    res.json({
+        success: true,
+        statusCode: 200,
+        message: "User signin successfully!",
+        token
+    });
+}));
+exports.AuthController = { signUpDB, signIn };

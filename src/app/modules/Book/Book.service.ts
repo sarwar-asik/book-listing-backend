@@ -228,7 +228,7 @@ const getSingleData = async (id: string): Promise<Book | null> => {
 const getSingleByCategoryData = async (
   id: string,
   options: IPaginationOptions
-): Promise<IGenericResponse<Book[]> | null | Book> => {
+): Promise<any>=> {
   const resultById = await prisma.book.findUnique({
     where: {
       id,

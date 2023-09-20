@@ -68,8 +68,9 @@ const getSingleByCategoryDataById = (0, catchAsync_1.default)((req, res) => __aw
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: `Book fetched by category successfully`,
-        data: result,
+        message: `Books with associated category data fetched successfully`,
+        data: result === null || result === void 0 ? void 0 : result.data,
+        meta: result === null || result === void 0 ? void 0 : result.meta
     });
 }));
 const updateIntoDb = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

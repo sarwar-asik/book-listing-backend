@@ -68,6 +68,8 @@ const getSingleDataById = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+
 const getSingleByCategoryDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.categoryId;
 
@@ -75,11 +77,12 @@ const getSingleByCategoryDataById = catchAsync(async (req: Request, res: Respons
 
   const result = await BookService.getSingleByCategoryData(id,options)
 
-  sendResponse<IGenericResponse<Book[]>| Book>(res, {
+  sendResponse<IGenericResponse<Book[] | Book>>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: `Book fetched by category successfully`,
-    data: result,
+    message: `Books with associated category data fetched successfully`,
+    data: result?.data,
+    meta:result?.meta
   });
 });
 

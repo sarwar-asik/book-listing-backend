@@ -11,9 +11,9 @@ const router = Router();
 
 router.post('/create-book',auth(ENUM_USER_ROLE.ADMIN),validateRequest(BookValidation.createBook), BookController.insertDB);
 
-// router.get('/:id',auth(ENUM_USER_ROLE.ADMIN), BookController.getSingleDataById);
+router.get('/:id',auth(ENUM_USER_ROLE.ADMIN), BookController.getSingleDataById);
 
-router.get('/:categoryId',auth(ENUM_USER_ROLE.ADMIN), BookController.getSingleByCategoryDataById);
+router.get('/:categoryId/category',auth(ENUM_USER_ROLE.ADMIN), BookController.getSingleByCategoryDataById);
 
 router.get('/',auth(ENUM_USER_ROLE.ADMIN), BookController.getAllDB);
 

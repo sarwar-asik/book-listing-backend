@@ -20,13 +20,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', routes);
 
-app.use('/', (req: Request, res: Response) => {
-  // console.log(req?.body,"https//:localhost:5000/");
-  res.json({
-    status:httpStatus.CONTINUE,
-    message:'book-listing-server server is running on 5000'
-  });
-});
+// app.use('/', (req: Request, res: Response) => {
+//   // console.log(req?.body,"https//:localhost:5000/");
+//   res.json({
+//     status:httpStatus.CONTINUE,
+//     message:'book-listing-server server is running on 5000'
+//   });
+// });
 
 
 //global error handler
